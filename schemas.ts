@@ -16,7 +16,6 @@ const createEmployeeSchemas = z.object({
 })
 
 const updateEmployeeSchemas = z.object({
-    EmployeeID: z.number().int(),
     body: z.object
     ({
         FirstName: z.string(),

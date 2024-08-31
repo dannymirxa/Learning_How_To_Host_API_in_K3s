@@ -23,6 +23,15 @@ function validateCreateInput(input: unknown) {
     return result.data;
 }
 
+function validateUpdateInput(input: unknown) {
+    const result = updateEmployeeSchemas.safeParse(input);
+    if (!result.success) {
+        throw new Error('Invalid input');
+    }
+    return result.data;
+}
+
+
 async function createNewEmployee(body: any) {
     try {
         const validInput = validateCreateInput(body)
@@ -54,8 +63,51 @@ async function createNewEmployee(body: any) {
         const rows = await db.all(`select * from Employees where EmployeeID = ${validInput.body.EmployeeID};`);
         return rows;
     } catch (error) {
-        console.error(error.message);
+        console.error((error as Error).message);
     }
 }
 
-export { getAllEmployees, getEmployeeByID, createNewEmployee};
+async function updateEmployee(id: number, body: any) {
+    try {
+        const validInput = validateUpdateInput(body)
+        const stmt = await con.prepare(`
+        UPDATE Employees 
+        SET
+            FirstName = ?,
+            LastName = ?,
+            BirthDate = ?,
+            HireDate = ?,
+            Salary = ?,
+            IsActive = ?,
+            Email = ?,
+            PhoneNumber = ?
+        WHERE EmployeeID = ${id}`);
+
+        await stmt.run(
+            validInput.body.FirstName,
+            validInput.body.LastName,
+            validInput.body.BirthDate,
+            validInput.body.HireDate,
+            validInput.body.Salary,
+            validInput.body.IsActive,
+            validInput.body.Email,
+            validInput.body.PhoneNumber
+        );
+        const rows = await db.all(`select * from Employees where EmployeeID = ${id};`);
+        return rows;
+    } catch (error) {
+        console.error((error as Error).message);
+    }
+}
+
+async function deleteEmployeeByID(id: number) {
+    try {
+        await db.all(`delete from Employees where EmployeeID = ${id};`);
+    } catch (error) {
+        console.error((error as Error).message);
+    }
+}
+
+// console.log(validateUpdateInput(req))
+
+export { getAllEmployees, getEmployeeByID, createNewEmployee, updateEmployee, deleteEmployeeByID};
