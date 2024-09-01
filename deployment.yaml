@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-api
+  template:
+    metadata:
+      labels:
+        app: employee-api
+    spec:
+      containers:
+      - name: employee-api
+        image: employee-api:latest
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "0.5"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: development
+        command: ["bun", "run", "/usr/src/app/server.ts"]

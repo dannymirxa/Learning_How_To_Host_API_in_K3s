@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-api
+  template:
+    metadata:
+      labels:
+        app: employee-api
+    spec:
+      containers:
+      - name: employee-api
+        image: employee-api:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: code-volume
+          mountPath: /usr/src/app
+        env:
+        - name: NODE_ENV
+          value: development
+        command: ["bun", "run", "server.ts"]
+      volumes:
+      - name: code-volume
+        persistentVolumeClaim:
+          claimName: employee-api-pvc

@@ -1,8 +1,9 @@
-version: '3.8'
-
 services:
-  app:
-    build: .
+  employee-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: employee-api:latest
     ports:
       - "3000:3000"
     volumes:
@@ -10,3 +11,4 @@ services:
     environment:
       - NODE_ENV=development
     command: ["bun", "run", "server.ts"]
+    container_name: employee_api
