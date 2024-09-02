@@ -3,12 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: employee-api:latest
+    image: employee-api-clean:latest
     ports:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
-    environment:
-      - NODE_ENV=development
-    command: ["bun", "run", "server.ts"]
-    container_name: employee_api
+    container_name: employee_api_clean
