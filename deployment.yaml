@@ -25,7 +25,3 @@ spec:
             cpu: "1"
         ports:
         - containerPort: 3000
-        env:
-        - name: NODE_ENV
-          value: development
-        command: ["bun", "run", "/usr/src/app/server.ts"]
