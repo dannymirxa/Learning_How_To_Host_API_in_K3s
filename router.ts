@@ -2,7 +2,8 @@ import { Database, type TableData } from "duckdb-async";
 import { createEmployeeSchemas, updateEmployeeSchemas } from "./schemas.ts";
 import { z } from "zod";
 
-const db = await Database.create("Employee.db");
+// const db = await Database.create("Employee.db");
+const db = await Database.create("./database/Employee.db");
 const con = await db.connect();
 
 async function getAllEmployees(): Promise<TableData> {

@@ -10,11 +10,11 @@ RUN cd /temp/dev && bun install --frozen-lockfile
 FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 
-COPY Employee.db .
+# COPY Employee.db .
 COPY *.ts .
 
 # gives sudo permission to access Employee.db
-RUN chmod 666 Employee.db
+# RUN chmod 666 Employee.db
 
 USER bun
 EXPOSE 3000/tcp

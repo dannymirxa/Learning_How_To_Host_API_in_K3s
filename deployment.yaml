@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: employee-api
+  name: employee-api-deployment
 spec:
   replicas: 1
   selector:
@@ -12,16 +12,23 @@ spec:
       labels:
         app: employee-api
     spec:
+      initContainers:
+        - name: init-chmod
+          image: busybox
+          command: ["sh", "-c", "chmod 777 /usr/src/app/database/Employee.db"]
+          volumeMounts:
+            - name: employee-db
+              mountPath: /usr/src/app/database
       containers:
-      - name: employee-api
-        image: employee-api:latest
-        imagePullPolicy: Never
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "0.5"
-          limits:
-            memory: "512Mi"
-            cpu: "1"
-        ports:
-        - containerPort: 3000
+        - name: employee-api
+          image: employee-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: employee-db
+              mountPath: /usr/src/app/database
+      volumes:
+        - name: employee-db
+          persistentVolumeClaim:
+            claimName: employee-api-pvc
