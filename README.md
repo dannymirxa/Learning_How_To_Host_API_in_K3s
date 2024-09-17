@@ -205,13 +205,29 @@ To deploy the service.yaml, run below command:
 kubectl apply -f service.yaml --context kind-employee-api
 ```
 
-#### 3.4.6 Port forwarding
+#### 3.4.11 Port forwarding
 
 Forward the port from the pod to your local machine so the API can be accessed. Run below command:
 
 ```bash
 kubectl port-forward svc/employee-api 3000:3000
 ```
+
+#### 3.4.12 Debug a running pod
+
+A pod can be debugged using command below:
+
+```bash
+kubectl debug <pod name> -it --image=<image name> --target=<container name>
+```
+
+```bash
+kubectl debug employee-api-deployment-6c7f8fcc95-ttb88 -it --image=debian --target=employee-api
+```
+
+kubectl exec -it employee-api-deployment-6c7f8fcc95-4lxzf -- bash
+
+helm install employeeapi employee-api/
 
 #### P.S Reminder to Myself
 
@@ -247,7 +263,7 @@ spec:
           - employee-api-worker
 ```
 
-##### 3. Properly mount Persistent Volume Claim in the deployment.
+##### 3. Properly mount Persistent Volume Claim in the deployment
 
 From how I understand it, say the mount volume are as below:
 
