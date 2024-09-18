@@ -9,7 +9,7 @@ spec:
     - ReadWriteOnce
   storageClassName: standard
   local:
-    path: /employee-api-app
+    path: {{ .Values.volume.database.nodePath}}
   nodeAffinity:
     required:
       nodeSelectorTerms:

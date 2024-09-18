@@ -225,9 +225,27 @@ kubectl debug <pod name> -it --image=<image name> --target=<container name>
 kubectl debug employee-api-deployment-6c7f8fcc95-ttb88 -it --image=debian --target=employee-api
 ```
 
-kubectl exec -it employee-api-deployment-6c7f8fcc95-4lxzf -- bash
+### 3.5 Helm
 
-helm install employeeapi employee-api/
+#### 3.5.1 Install Helm first, source: <https://helm.sh/docs/helm/helm_install/>
+
+#### 3.5.2 There is a folder name employee-api in the repository. It contains the chart, templates and values for Helm charts.
+
+#### 3.5.3 To deploy, just run below command
+
+#### 3.5.3.1 Install the helm chart
+
+```bash
+helm install employeeapi employee-api/ --values employee-api/values.yaml
+```
+
+#### 3.5.3.2 Upgrade the helm chart
+
+This is used if you want to update the changes in the Helm manifest into the chart.
+
+```bash
+helm upgrade employeeapi employee-api/ --values employee-api/values.yaml
+```
 
 #### P.S Reminder to Myself
 
